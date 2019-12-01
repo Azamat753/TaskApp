@@ -38,10 +38,11 @@ public class HomeFragment extends Fragment {
 
 
         list = new ArrayList<>();
-        list.add(new Task("Хасан", " "));
 
         adapter = new TaskAdapter(list);
+
         recyclerView.setAdapter(adapter);
+
         return root;
     }
 
@@ -52,7 +53,9 @@ public class HomeFragment extends Fragment {
             String title = data.getStringExtra("title");
             String desc = data.getStringExtra("description");
 
-            list.add(new Task(title,desc));
+            list.add(0,new Task(title,desc));
+            adapter.notifyDataSetChanged();
+
         }
 
     }
