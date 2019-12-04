@@ -28,14 +28,13 @@ public class HomeFragment extends Fragment {
     private List<Task> list;
 
     private HomeViewModel homeViewModel;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView recyclerView = root.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-
-
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         list = new ArrayList<>();
 
@@ -49,14 +48,12 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode== Activity.RESULT_OK&&requestCode==1){
+        if (resultCode == Activity.RESULT_OK && requestCode == 1) {
             String title = data.getStringExtra("title");
             String desc = data.getStringExtra("description");
 
-            list.add(0,new Task(title,desc));
+            list.add(0, new Task(title, desc));
             adapter.notifyDataSetChanged();
-
         }
-
     }
 }

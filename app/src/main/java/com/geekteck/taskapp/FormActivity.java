@@ -13,7 +13,6 @@ import com.geekteck.taskapp.ui.home.HomeFragment;
 public class FormActivity extends AppCompatActivity {
      private EditText editTitle;
      private EditText editdescription;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +20,6 @@ public class FormActivity extends AppCompatActivity {
         editTitle= findViewById(R.id.editTitle);
         editdescription= findViewById(R.id.editDescription);
     }
-
     public void OnClick(View view) {
         String title = editTitle.getText().toString().trim();
         String description= editdescription.getText().toString().trim();
@@ -32,5 +30,4 @@ public class FormActivity extends AppCompatActivity {
         setResult(RESULT_OK,intent);
         finish();
     }
-
 }

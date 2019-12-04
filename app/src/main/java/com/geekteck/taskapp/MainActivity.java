@@ -1,10 +1,11 @@
 package com.geekteck.taskapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.geekteck.taskapp.onboard.OnBoardActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import android.view.View;
 
@@ -31,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences preferences = getSharedPreferences("settings",MODE_PRIVATE);
+
+        boolean isShown = preferences.getBoolean("isShown",false);
+        if (!isShown){
+            startActivity(new Intent(this, OnBoardActivity.class));
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,15 +81,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode==RESULT_OK&& requestCode == 1){
-//            data.getStringExtra("title");
-//            data.getStringExtra("description");
-//           }
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         if (fragment != null) {
             fragment.getChildFragmentManager().getFragments().get(0).
                     onActivityResult(requestCode,resultCode,data);
         }
     }
-    }
+
+
+}
 
