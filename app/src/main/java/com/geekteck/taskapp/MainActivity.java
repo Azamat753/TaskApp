@@ -186,7 +186,6 @@ private  int counter=0;
                 timer.cancel();
                 progressBar.setVisibility(View.INVISIBLE);
                 }
-
             }
         };
         timer.schedule(timerTask,0,100);
