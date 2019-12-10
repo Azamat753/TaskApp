@@ -18,7 +18,7 @@ import com.geekteck.taskapp.R;
 import com.google.android.material.tabs.TabLayout;
 
 public class OnBoardActivity extends AppCompatActivity {
-    private TabLayout tabLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +28,8 @@ public class OnBoardActivity extends AppCompatActivity {
         SectionPagerAdapter adapter = new SectionPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
 
-        tabLayout = findViewById(R.id.tab_layout);
+      TabLayout  tabLayout = findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager, true);
-
 
     }
 
@@ -41,7 +40,6 @@ public class OnBoardActivity extends AppCompatActivity {
         finish();
         return view;
     }
-
 
     public static class SectionPagerAdapter extends FragmentPagerAdapter {
         public SectionPagerAdapter(FragmentManager fm) {

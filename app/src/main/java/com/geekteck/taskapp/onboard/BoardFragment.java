@@ -1,36 +1,19 @@
 package com.geekteck.taskapp.onboard;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
-
-import android.provider.Contacts;
-import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
-
 import com.geekteck.taskapp.MainActivity;
 import com.geekteck.taskapp.R;
-import com.google.android.material.tabs.TabLayout;
-
-import static com.geekteck.taskapp.R.color.background_floating_material_dark;
-import static com.geekteck.taskapp.R.color.background_material_dark;
-import static com.geekteck.taskapp.R.color.colorPrimary;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,9 +35,6 @@ public class BoardFragment extends Fragment {
         Button button = view.findViewById(R.id.button_start);
         LinearLayout frg = view.findViewById(R.id.frg_board);
 
-
-
-
         switch (pos) {
             case 0:
                 button.setVisibility(View.INVISIBLE);
@@ -68,18 +48,14 @@ public class BoardFragment extends Fragment {
                 textView.setText("Как дела?");
                 imageView.setImageResource(R.drawable.onboard_page2);
                 frg.setBackgroundColor(getResources().getColor(R.color.colorYellow));
-
                 break;
             case 2:
                 button.setVisibility(View.VISIBLE);
                 textView.setText("Что делаешь?");
                 imageView.setImageResource(R.drawable.onboard_page3);
                 frg.setBackgroundColor(getResources().getColor(R.color.colorGreen));
-
                 break;
         }
-
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,8 +65,6 @@ public class BoardFragment extends Fragment {
                 getActivity().finish();
             }
         });
-
         return view;
     }
-
 }

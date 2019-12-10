@@ -6,26 +6,35 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".FormActivity">
+    tools:context=".FormActivity"
+    android:background="@drawable/photo">
 
     <EditText
         android:id="@+id/editTitle"
+        android:gravity="center"
+        android:textColor="@android:color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Задача"/>
+        android:layout_height="50dp"
+        android:background="@drawable/edittext"
+        android:hint="Задача" />
 
     <EditText
         android:id="@+id/editDescription"
+        android:gravity="center"
+        android:textColor="@android:color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:background="@drawable/edittext"
         android:hint="Описание"/>
 
     <Button
+        android:id="@+id/button_save"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:background="@drawable/gradient"
+        android:gravity="center"
         android:onClick="OnClick"
-        android:text="Сохранить"/>
-
+        android:text="Сохранить" />
 
 
 </LinearLayout>
