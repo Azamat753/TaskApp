@@ -12,6 +12,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.os.CountDownTimer;
 import android.os.Environment;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -29,6 +30,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
@@ -45,8 +48,8 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity {
-ProgressBar progressBar;
-private  int counter=0;
+    ProgressBar progressBar;
+    private int counter = 0;
     private AppBarConfiguration mAppBarConfiguration;
 
 
@@ -87,11 +90,17 @@ private  int counter=0;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-
-        return true;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sort:
+                //code
+                return true;
+            case R.id.clear:
+                //code
+                return  true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -101,15 +110,15 @@ private  int counter=0;
                 || super.onSupportNavigateUp();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        if (fragment != null) {
-            fragment.getChildFragmentManager().getFragments().get(0).
-                    onActivityResult(requestCode, resultCode, data);
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+//        if (fragment != null) {
+//            fragment.getChildFragmentManager().getFragments().get(0).
+//                    onActivityResult(requestCode, resultCode, data);
+//        }
+    //   }
 
     @AfterPermissionGranted(101)
     private void initFile() {
@@ -171,24 +180,24 @@ private  int counter=0;
         // Forward results to EasyPermissions
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
-
-
     public void onDownload(View view) {
         initFile();
         progressBar = findViewById(R.id.gal_pb);
-         final Timer timer=new Timer();
+        final Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                counter+=2;
+                counter += 2;
                 progressBar.setProgress(counter);
-                if (counter==100){
-                timer.cancel();
-                progressBar.setVisibility(View.INVISIBLE);
+                if (counter == 100) {
+                    timer.cancel();
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         };
-        timer.schedule(timerTask,0,100);
+        timer.schedule(timerTask, 0, 100);
+
     }
+
 }
 
