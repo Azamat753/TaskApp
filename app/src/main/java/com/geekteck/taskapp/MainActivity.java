@@ -8,15 +8,18 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.geekteck.taskapp.onboard.OnBoardActivity;
+import com.geekteck.taskapp.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.os.CountDownTimer;
 import android.os.Environment;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -41,6 +44,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -51,13 +55,21 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     private int counter = 0;
     private AppBarConfiguration mAppBarConfiguration;
-
+    private List<Task> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
 
+        list = App.getDatabase().taskDao().getAll();
+        App.getDatabase().taskDao().getAllLive().observe(this, new Observer<List<Task>>() {
+            @Override
+            public void onChanged(List<Task> tasks) {
+                list.clear();
+                list.addAll(tasks);
+        }
+        });
 
         boolean isShown = preferences.getBoolean("isShown", false);
         if (!isShown) {
@@ -87,20 +99,28 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sort:
-                //code
-                return true;
+               Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                assert fragment != null;
+                ((HomeFragment) fragment.getChildFragmentManager().getFragments().get(0)).sortList();
             case R.id.clear:
-                //code
-                return  true;
-            default:
-                return super.onOptionsItemSelected(item);
+                App.getDatabase().taskDao().deleteall(list);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -109,16 +129,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-//        if (fragment != null) {
-//            fragment.getChildFragmentManager().getFragments().get(0).
-//                    onActivityResult(requestCode, resultCode, data);
-//        }
-    //   }
 
     @AfterPermissionGranted(101)
     private void initFile() {

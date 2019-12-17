@@ -1,5 +1,6 @@
 package com.geekteck.taskapp.onboard;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +25,7 @@ public class BoardFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,7 +45,6 @@ public class BoardFragment extends Fragment {
                 frg.setBackgroundColor(getResources().getColor(R.color.colorRed));
                 break;
             case 1:
-
                 button.setVisibility(View.INVISIBLE);
                 textView.setText("Как дела?");
                 imageView.setImageResource(R.drawable.onboard_page2);

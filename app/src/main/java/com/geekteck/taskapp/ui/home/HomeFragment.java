@@ -86,9 +86,15 @@ private Task task;
         });
         return root;
     }
+    public void sortList() {
+        if (list != null){
+            App.getDatabase().taskDao().sort();
 
+        }
+ }
 
 }
+
 //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);

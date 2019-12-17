@@ -3,14 +3,17 @@ package com.geekteck.taskapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 public class FormActivity extends AppCompatActivity {
     Task task;
 
     private EditText editTitle;
     private EditText editdescription;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,9 +22,7 @@ public class FormActivity extends AppCompatActivity {
         editTitle = findViewById(R.id.editTitle);
         editdescription = findViewById(R.id.editDescription);
         getting();
-
     }
-
     public void OnClick(View view) {
         String title = editTitle.getText().toString().trim();
         String description = editdescription.getText().toString().trim();
@@ -48,7 +49,9 @@ public class FormActivity extends AppCompatActivity {
 
         }
 
+
     }
+
 
 
 }

@@ -20,6 +20,9 @@ public interface TaskDao {
     @Query("SELECT*FROM task")
     LiveData<List<Task>> getAllLive();
 
+    @Query("SELECT*FROM task ORDER BY title ASC")
+    List<Task> sort();
+
     @Insert
     void insert(Task task);
 
@@ -27,6 +30,7 @@ public interface TaskDao {
     void delete(Task task);
 
     @Update
-    void update (Task task);
-
+    void update(Task task);
+@Delete
+    void deleteall(List<Task> list);
 }
