@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
     package="com.geekteck.taskapp"
     tools:ignore="ExtraText">
 
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-<uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
@@ -18,8 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".onboard.OnBoardActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".PhoneActivity" />
+        <activity
+            android:name=".onboard.OnBoardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".FormActivity" />
         <activity
             android:name=".MainActivity"

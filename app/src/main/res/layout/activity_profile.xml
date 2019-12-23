@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal"
+    tools:context=".ProfileActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/geekteck"/>
+
+    <EditText
+        android:id="@+id/editName"
+        android:drawableStart="@drawable/ic_desc"
+        android:inputType="textCapSentences"
+        android:drawablePadding="10dp"
+        android:layout_marginTop="16dp"
+        android:hint="Имя"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/editEmail"
+        android:drawableStart="@drawable/ic_desc"
+        android:inputType="textCapSentences"
+        android:drawablePadding="10dp"
+        android:layout_marginTop="16dp"
+        android:hint="Почта"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="TextFields" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="save"
+        android:onClick="OnSaveProfile"/>
+</LinearLayout>

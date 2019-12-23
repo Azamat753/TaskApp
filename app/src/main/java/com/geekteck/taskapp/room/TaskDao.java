@@ -33,4 +33,5 @@ public interface TaskDao {
     void update(Task task);
 @Delete
     void deleteall(List<Task> list);
+
 }

@@ -2,6 +2,7 @@ package com.geekteck.taskapp;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -13,11 +14,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.os.CountDownTimer;
 import android.os.Environment;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
@@ -26,6 +30,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -36,7 +41,10 @@ import android.view.Menu;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
 
@@ -57,23 +65,39 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private List<Task> list;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
+    private TextView textName;
+    private TextView textEmail;
+    private String name;
+    private String email;
+    final String SAVED_TEXT = "saved_text";
 
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
+        name=preferences.getString("name","no name");
+        email=preferences.getString("email","no email");
         list = App.getDatabase().taskDao().getAll();
         App.getDatabase().taskDao().getAllLive().observe(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
                 list.clear();
                 list.addAll(tasks);
-        }
+            }
+
+
         });
 
         boolean isShown = preferences.getBoolean("isShown", false);
+
         if (!isShown) {
             startActivity(new Intent(this, OnBoardActivity.class));
+            finish();
+            return;
+        }
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            startActivity(new Intent(this, PhoneActivity.class));
             finish();
             return;
         }
@@ -89,6 +113,18 @@ public class MainActivity extends AppCompatActivity {
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(MainActivity.this, ProfileActivity.class),200);
+            }
+
+        });
+        textName = header.findViewById(R.id.name_textView);
+        textEmail = header.findViewById(R.id.email_textView);
+        textName.setText(name);
+        textEmail.setText(email);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -114,11 +150,27 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sort:
-               Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
                 assert fragment != null;
                 ((HomeFragment) fragment.getChildFragmentManager().getFragments().get(0)).sortList();
             case R.id.clear:
                 App.getDatabase().taskDao().deleteall(list);
+            case R.id.signOut:
+                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                dialog.setTitle("Вы хотите выйти?")
+                        .setMessage("Выйти из приложения").setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }).setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        System.exit(0);
+                    }
+                }).show();
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -190,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
         // Forward results to EasyPermissions
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
+
     public void onDownload(View view) {
         initFile();
         progressBar = findViewById(R.id.gal_pb);
@@ -206,8 +259,23 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         timer.schedule(timerTask, 0, 100);
-
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+     if (resultCode == RESULT_OK && requestCode == 200 && data != null){
+//         textEmail=findViewById(R.id.email_textView);
+//         textName=findViewById(R.id.name_textView);
+
+         textName.setText(data.getStringExtra("name"));
+         textEmail.setText(data.getStringExtra("email"));
+     }
 }
 
+//
+//textName.setText(editName.getText());
+//textEmail.setText(editEmail.getText());
+
+
+}

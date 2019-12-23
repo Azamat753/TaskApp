@@ -87,7 +87,8 @@ private Task task;
         return root;
     }
     public void sortList() {
-        if (list != null){
+        if (list!= null){
+            App.getDatabase().taskDao().update(task);
             App.getDatabase().taskDao().sort();
 
         }
@@ -95,15 +96,5 @@ private Task task;
 
 }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == Activity.RESULT_OK && requestCode == 1) {
-//            String title = data.getStringExtra("title");
-//            String desc = data.getStringExtra("description");
-//            list.add(0, new Task(title, desc));
-//            list = App.getDatabase().taskDao().getAll();
-//            adapter.notifyDataSetChanged();
-//        }
-//}
+
 

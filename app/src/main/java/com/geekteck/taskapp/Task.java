@@ -3,6 +3,7 @@ package com.geekteck.taskapp;
 import android.widget.ImageView;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -12,7 +13,10 @@ public class Task implements Serializable {
     private long id;
     private String title;
     private String desc;
+@Ignore
+    public Task(){
 
+    }
 
     public long getId() {
         return id;
